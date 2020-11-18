@@ -48,18 +48,13 @@ function appendToTodoList(taskDescription, color) {
   newButton.innerText = "X";
   newButton.addEventListener("click", function (event) {
     event.target.parentElement.remove();
-    
+
     // Failed from here damn!
-    // const todo = todos.find(({ description }) => {
-    //   // console.log(todo);
-    //   console.log(description);
-    //   console.log(taskDescription);
-    //   description === taskDescription;
-    // });
-    // console.log("find", todo);
-    // const idx = todos.indexOf(todo);
-    // console.log(idx);
-    // todos.splice(idx, 1);
+    let todo = todos.find((todo) => {
+      return todo.description === taskDescription && todo.color === color;
+    });
+    const idx = todos.indexOf(todo);
+    todos.splice(idx, 1);
   });
 
   newLi.appendChild(newButton);

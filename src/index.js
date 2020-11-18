@@ -1,24 +1,67 @@
+let todos = [];
+let priority = {
+  red: 1,
+  yellow: 2,
+  green: 3,
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   // your code here
-
-  // let newArr = document.getElementsByTagName("form");
-  // console.log(newArr);
-  // console.log(newArr[0]);
-
   document.querySelector("form").addEventListener("submit", (event) => {
     event.preventDefault();
-    const findUl = document.getElementsByTagName("ul")[0];
 
-    let newLi = document.createElement("li");
-    newLi.innerText = event.target.newTaskDescription.value + " ";
+    const taskDescription = event.target.newTaskDescription.value;
+    const color = event.target.priority.value;
 
-    let newButton = document.createElement("button");
-    newButton.innerText = "X";
-    newButton.addEventListener("click", function (event) {
-      event.target.parentElement.remove();
+    todos.push({
+      description: taskDescription,
+      priority: priority[color],
+      color: color,
     });
 
-    newLi.appendChild(newButton);
-    findUl.appendChild(newLi);
+    //sort the array of todos
+    todos.sort(function (a, b) {
+      return a.priority - b.priority;
+    });
+
+    //delete all li
+    let liList = document.querySelectorAll("li");
+    liList.forEach(function (li) {
+      li.remove();
+    });
+
+    //create all li again
+    todos.forEach(function (todo) {
+      appendToTodoList(todo.description, todo.color);
+    });
   });
 });
+
+function appendToTodoList(taskDescription, color) {
+  const findUl = document.getElementsByTagName("ul")[0];
+
+  let newLi = document.createElement("li");
+  newLi.innerText = taskDescription + " ";
+  newLi.style.color = color;
+
+  let newButton = document.createElement("button");
+  newButton.innerText = "X";
+  newButton.addEventListener("click", function (event) {
+    event.target.parentElement.remove();
+    
+    // Failed from here damn!
+    // const todo = todos.find(({ description }) => {
+    //   // console.log(todo);
+    //   console.log(description);
+    //   console.log(taskDescription);
+    //   description === taskDescription;
+    // });
+    // console.log("find", todo);
+    // const idx = todos.indexOf(todo);
+    // console.log(idx);
+    // todos.splice(idx, 1);
+  });
+
+  newLi.appendChild(newButton);
+  findUl.appendChild(newLi);
+}
